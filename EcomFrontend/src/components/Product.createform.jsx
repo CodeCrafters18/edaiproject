@@ -153,8 +153,11 @@ const ProductForm = () => {
                   required
                 >
                   <option value="">Select Category</option>
-                  <option value="Haldiram">Haldiram</option>
-                  <option value="G2">G2</option>
+                  <option value="fruits">fruits</option>
+                  <option value="vegetables">vegetables</option>
+                  <option value="grains">grains</option>
+                  <option value="pulses">pulses</option>
+                  <option value="fibre-crop">fibre-crop</option>
                 </select>
               </div>
               <div className="availability">

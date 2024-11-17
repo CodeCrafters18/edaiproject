@@ -16,6 +16,8 @@ import Auth from './components/Auth';
 import Orders from './pages/Orders';
 import OrderToday from './pages/adminTodayorder';
 import AdminOrderTodayDetail from './pages/AdminTodayOrderDetail';
+import StorageRentalForm from './components/StorageRentalForm';
+import StorageSpace from './pages/CreateStorage';
 
 // ProtectedRoute components
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -84,6 +86,7 @@ function AppContent() {
             </UserProtectedRoute>
           }
         />
+        <Route path='/storagespace' element={<StorageSpace/>}/>
         <Route path="/mobileotp" element={<Auth />} />
         <Route 
           path="/todayorders" 

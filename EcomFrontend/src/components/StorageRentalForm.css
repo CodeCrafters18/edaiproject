@@ -1,0 +1,92 @@
+.form-container {
+    min-height: 100vh;
+    background-color: #f7fafc;
+    padding: 3rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-card {
+    max-width: 768px;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .form-header {
+    padding: 1.25rem;
+    text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .form-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+  }
+  
+  .form {
+    padding: 1.25rem;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .form label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form input,
+  .form select {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    color: #374151;
+    outline: none;
+  }
+  
+  .form input:focus,
+  .form select:focus {
+    border-color: #226941;
+    box-shadow: 0 0 0 3px rgba(3, 132, 39, 0.3);
+  }
+  
+  .price-input {
+    display: flex;
+    align-items: center;
+  }
+  
+  .price-input span {
+    padding: 0.5rem;
+    background: #f9fafb;
+    border-right: 1px solid #d1d5db;
+    color: #6b7280;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #2e8b57;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .submit-button:hover {
+    background: #226941;
+  }
+  

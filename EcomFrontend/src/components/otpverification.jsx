@@ -60,7 +60,7 @@ export default function OtpInputWithValidation({details, numberOfDigits, onClose
 
   const userRegister = async () => {
     try {
-      const response=await axios.post(`${API_BASE_URL}/api/register`, {
+      const response=await axios.post(`${API_BASE_URL}/api/createuser`, {
         username: details.username,
         email: details.email,
         password: details.password,
