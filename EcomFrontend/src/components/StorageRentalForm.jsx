@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import MorphingLoader from './MorphingLoader';
 import './StorageRentalForm.css';
 
 export default function StorageRentalForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     areaLength: '',
     areaWidth: '',
@@ -12,6 +16,8 @@ export default function StorageRentalForm() {
     securityFeatures: '',
     availabilityPeriod: '',
   });
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const fetchLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -52,12 +58,40 @@ export default function StorageRentalForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+  
+    try {
+      const response = await axios.post(`${API_BASE_URL}/api/addstorage`, formData, {
+        headers: {
+          'Content-Type': 'application/json', // Specify JSON since it's not multipart/form-data
+        },
+      });
+      if (response.status === 201) {
+        navigate("/", { state: { message: response.data.message } });
+        setFormData({
+          areaLength: '',
+          areaWidth: '',
+          climate: '',
+          location: '',
+          price: '',
+          storageType: '',
+          securityFeatures: '',
+          availabilityPeriod: '',
+        });
+      } else {
+        console.error('Error submitting storage form');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false); // Stop loading
+    }
   };
 
   return (
+    <>{isSubmitting && <MorphingLoader />}{
     <div className="form-container">
       <div className="form-card">
         <div className="form-header">
@@ -127,7 +161,7 @@ export default function StorageRentalForm() {
     <button
       type="button"
       onClick={fetchLocation}
-      className="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-700 focus:outline-none"
+      className="locations-button"
     >
       Fetch Location
     </button>
@@ -201,6 +235,6 @@ export default function StorageRentalForm() {
           </div>
         </form>
       </div>
-    </div>
+    </div>}</>
   );
 }

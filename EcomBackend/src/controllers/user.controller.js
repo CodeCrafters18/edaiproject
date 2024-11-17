@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import storageModel from "../models/storage.model.js";
 import { Admin } from "../models/admin.model.js";
 import { billingSchema } from "../models/billingdetails.model.js";
 import { Product } from "../models/product.model.js";
@@ -247,5 +248,19 @@ const orders = asyncHandler(async (req, res) => {
         res.status(500).json({ message: 'Server error or no orders found' });
     }
 });
-
-export { searchProduct, VerifyUserdetails, registerUser, loginUser, logoutUser, getCurrentUser, billingDetails, orders, changePassword };
+const addStorage = asyncHandler(async (req, res) => {
+    try{
+        const {areaLength, areaWidth, climate, location, price, storageType, securityFeatures, availabilityPeriod} = req.body;
+        if(!(areaLength && areaWidth && climate && location && price && storageType)){
+            throw new ApiError(400, "All fields are compulsory");
+        }
+        const storage = await storageModel.create({
+            areaLength, areaWidth, climate, location, price, storageType, securityFeatures, availabilityPeriod
+        });
+        res.status(201).json(new ApiResponse(200, {storage}, "Storage added successfully"));
+    }catch(error){
+        res.status(500).json({ message: 'something went wrong' });
+        throw new ApiError(500, error.message);
+    }
+});
+export { searchProduct, VerifyUserdetails, registerUser, loginUser, logoutUser, getCurrentUser, billingDetails, orders, changePassword,addStorage };
