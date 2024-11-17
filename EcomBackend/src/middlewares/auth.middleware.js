@@ -50,17 +50,13 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
 
     // Find the user or admin associated with the refresh token
     let user = await User.findById(decodedRefresh._id);
-    let admin = null;
     if (!user) {
-      admin = await Admin.findById(decodedRefresh._id);
-      if (!admin) {
         // No valid user or admin found
         throw new ApiError(401, "Invalid refresh token");
-      }
     }
 
     // Generate a new access token
-    const newAccessToken = user ? user.generateAccessToken() : admin.generateAccessToken();
+    const newAccessToken = user ? user.generateAccessToken() : null;
 
     // Set the new access token in cookies
     res.cookie("accessToken", newAccessToken, {
@@ -73,8 +69,6 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     // Attach the user or admin to the request object
     if (user) {
       req.user = user;
-    } else {
-      req.admin = admin;
     }
 
     // Proceed to the next middleware
@@ -94,26 +88,8 @@ const attachUserOrAdmin = async (decoded, req) => {
     req.user = user;
     return;
   }
-
-  const admin = await Admin.findById(decoded._id).select("-password -refreshToken");
-  if (admin) {
-    req.admin = admin;
-    return;
-  }
-
   throw new ApiError(401, "Invalid access token");
 };
-
-/**
- * Middleware to verify if the request is made by an admin.
- */
-export const verifyAdmin = asyncHandler(async (req, res, next) => {
-  if (!req.admin) {
-    throw new ApiError(401, "Unauthorized: Admin access required");
-  }
-  next();
-});
-
 /**
  * Middleware to verify if the request is made by a regular user.
  */

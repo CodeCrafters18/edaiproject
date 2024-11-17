@@ -12,7 +12,7 @@ import {
   getOrderDetails,
   updateorderstatus
 } from "../controllers/admin.controller.js";
-import { verifyAdmin, verifyJWT } from "../middlewares/auth.middleware.js";
+import {  verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import express from "express";

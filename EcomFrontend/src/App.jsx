@@ -20,14 +20,14 @@ import StorageRentalForm from './components/StorageRentalForm';
 import StorageSpace from './pages/CreateStorage';
 
 // ProtectedRoute components
-const ProtectedRoute = ({ children, adminOnly = false }) => {
+const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isAdmin, isLoading } = useUserContext();
 
   if (isLoading) {
     return <MorphingLoader />;
   }
 
-  if (!isAuthenticated || (adminOnly && !isAdmin)) {
+  if (!isAuthenticated) {
     return <Navigate to="/authpage" replace />;
   }
 
@@ -49,7 +49,7 @@ const UserProtectedRoute = ({ children }) => {
 
 // AppContent component
 function AppContent() {
-  const { isAuthenticated, isAdmin, isLoading, details } = useUserContext();
+  const { isAuthenticated,isLoading, details } = useUserContext();
 
   if (isLoading) {
     return <MorphingLoader />;
@@ -61,23 +61,7 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductPage  />} />
         <Route path="/authpage" element={<Authpage  />} />
-        <Route 
-          path="/admin/create" 
-          element={
-            <ProtectedRoute adminOnly={true}>
-              <AdminCreateProduct />
-            </ProtectedRoute>
-          } 
-        />
         <Route path="/products/:category" element={<Productlist  />} />
-        <Route 
-          path="/update/:id" 
-          element={
-            <ProtectedRoute adminOnly={true}>
-              <EditProductForm />
-            </ProtectedRoute>
-          } 
-        />
         <Route 
           path="/checkout" 
           element={
@@ -86,7 +70,14 @@ function AppContent() {
             </UserProtectedRoute>
           }
         />
-        <Route path='/storagespace' element={<StorageSpace/>}/>
+        <Route 
+          path="/storagespace" 
+          element={
+            <ProtectedRoute >
+              < StorageSpace/>
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/mobileotp" element={<Auth />} />
         <Route 
           path="/todayorders" 
@@ -101,6 +92,14 @@ function AppContent() {
           element={
             <ProtectedRoute adminOnly={true}>
               <AdminOrderTodayDetail  />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/addgrains" 
+          element={
+            <ProtectedRoute >
+              < AdminCreateProduct />
             </ProtectedRoute>
           } 
         />
