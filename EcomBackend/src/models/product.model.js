@@ -22,10 +22,6 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    fixedqty: {
-        type: Number,
-        required: true
-    },
     category: {
         type: String,
         required: true
@@ -33,6 +29,10 @@ const productSchema = new Schema({
     availability: {
         type: Boolean,
         required: true
+    },
+    owner:{
+        type:Schema.Types.ObjectId,
+        ref:"User"
     }
 });
 

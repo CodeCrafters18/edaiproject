@@ -263,4 +263,17 @@ const addStorage = asyncHandler(async (req, res) => {
         throw new ApiError(500, error.message);
     }
 });
-export { searchProduct, VerifyUserdetails, registerUser, loginUser, logoutUser, getCurrentUser, billingDetails, orders, changePassword,addStorage };
+
+const myproducts = asyncHandler(async (req, res) => {
+    try {
+        console.log("raj");
+        const myproductsdata = await Product.find({ owner: req.user._id });
+        console.log("vallabh");
+        res.status(200).json(new ApiResponse(200,{myproductsdata},"Grains details fetched successfully"));
+    } catch (error){
+        console.log("Catch error");
+        res.status(500).json({ message: 'Server error or no orders found' });
+    }
+});
+
+export { myproducts,searchProduct, VerifyUserdetails, registerUser, loginUser, logoutUser, getCurrentUser, billingDetails, orders, changePassword,addStorage };

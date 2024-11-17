@@ -18,6 +18,7 @@ import OrderToday from './pages/adminTodayorder';
 import AdminOrderTodayDetail from './pages/AdminTodayOrderDetail';
 import StorageRentalForm from './components/StorageRentalForm';
 import StorageSpace from './pages/CreateStorage';
+import MyproductsPage from './pages/myproductspage';
 
 // ProtectedRoute components
 const ProtectedRoute = ({ children }) => {
@@ -100,6 +101,14 @@ function AppContent() {
           element={
             <ProtectedRoute >
               < AdminCreateProduct />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/myproducts" 
+          element={
+            <ProtectedRoute >
+              < MyproductsPage />
             </ProtectedRoute>
           } 
         />
