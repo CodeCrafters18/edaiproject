@@ -1,0 +1,262 @@
+:root {
+  --pd-primary-color: #2e8b57;
+  --pd-primary-dark: #226941;
+  --pd-secondary-color: #f4f4f4;
+  --pd-text-color: #333;
+  --pd-border-color: #e0e0e0;
+  --pd-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.pd-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: var(--pd-secondary-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px var(--pd-shadow-color);
+  
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.pd-image-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pd-image {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.pd-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pd-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--pd-primary-color);
+}
+
+.pd-price-info {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.pd-current-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--pd-primary-color);
+}
+
+.pd-discount {
+  font-size: 1rem;
+  color: #10b981;
+  font-weight: bold;
+}
+
+.pd-original-price {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.pd-original-price span {
+  text-decoration: line-through;
+}
+
+.pd-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--pd-text-color);
+}
+
+.pd-features {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  color: var(--pd-text-color);
+}
+
+.pd-quantity-info {
+  font-weight: bold;
+  color: var(--pd-primary-color);
+  background-color: rgba(46, 139, 87, 0.1);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.pd-availability {
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.pd-in-stock {
+  color: #10b981;
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.pd-out-of-stock {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.pd-add-to-cart {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pd-quantity-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--pd-border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pd-quantity-btn {
+  background-color: var(--pd-primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pd-quantity-btn:hover {
+  background-color: var(--pd-primary-dark);
+}
+
+.pd-quantity-input {
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  border: none;
+  font-size: 1rem;
+}
+
+.pd-cart-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--pd-primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.pd-cart-button:active{
+  transform: scale(0.95);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.pd-cart-button:hover:not(:disabled) {
+  background-color: var(--pd-primary-dark);
+}
+
+.pd-cart-button-disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pd-admin-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pd-edit-button,
+.pd-delete-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 0 0.25rem;
+}
+
+.pd-edit-button:active,
+.pd-delete-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.pd-edit-button {
+  background-color: #2e8b57;
+  color: #ffffff;
+}
+
+.pd-edit-button:hover {
+  color: #176628;
+  background-color: #ffffff;
+  border: 2px solid #2e8b57;
+}
+
+.pd-delete-button {
+  background-color: #ffffff;
+  color: #df0b0b;
+  border: 2px solid #df0b0b;
+}
+
+.pd-delete-button:hover {
+  background-color: #df0b0b;
+  color: #ffffff;
+}
+
+.pd-edit-button svg,
+.pd-delete-button svg {
+  margin-right: 0.25rem;
+  width: 16px;  /* Adjust size of SVG */
+  height: 16px; /* Adjust size of SVG */
+}
+
+
+@media (min-width: 768px) {
+  .pd-container {
+    flex-direction: row;
+  }
+
+  .pd-image-wrapper {
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .pd-add-to-cart {
+    flex-direction: column;
+  }
+
+  .pd-quantity-selector {
+    width: 100%;
+  }
+
+  .pd-cart-button {
+    width: 100%;
+  }
+}

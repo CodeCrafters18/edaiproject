@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <!-- Background Dark Circle -->
+  <circle cx="150" cy="150" r="140" fill="#0d0d0d" stroke="#1f1f1f" stroke-width="5"/>
+
+  <!-- Developer 1 (left, hacker style) -->
+  <circle cx="90" cy="100" r="30" fill="#333"/> <!-- Head -->
+  <rect x="70" y="130" width="40" height="70" rx="20" ry="20" fill="#1f1f1f" stroke="#00ff66" stroke-width="2"/> <!-- Body -->
+  <line x1="70" y1="200" x2="50" y2="250" stroke="#00ff66" stroke-width="3"/> <!-- Left Leg -->
+  <line x1="110" y1="200" x2="130" y2="250" stroke="#00ff66" stroke-width="3"/> <!-- Right Leg -->
+  <line x1="70" y1="150" x2="40" y2="170" stroke="#00ff66" stroke-width="3"/> <!-- Left Arm -->
+  <line x1="110" y1="150" x2="140" y2="170" stroke="#00ff66" stroke-width="3"/> <!-- Right Arm -->
+
+  <!-- Developer 2 (right, hacker style) -->
+  <circle cx="210" cy="100" r="30" fill="#333"/> <!-- Head -->
+  <rect x="190" y="130" width="40" height="70" rx="20" ry="20" fill="#1f1f1f" stroke="#00ff66" stroke-width="2"/> <!-- Body -->
+  <line x1="190" y1="200" x2="170" y2="250" stroke="#00ff66" stroke-width="3"/> <!-- Left Leg -->
+  <line x1="230" y1="200" x2="250" y2="250" stroke="#00ff66" stroke-width="3"/> <!-- Right Leg -->
+  <line x1="190" y1="150" x2="160" y2="170" stroke="#00ff66" stroke-width="3"/> <!-- Left Arm -->
+  <line x1="230" y1="150" x2="260" y2="170" stroke="#00ff66" stroke-width="3"/> <!-- Right Arm -->
+
+  <!-- Central Code Symbol with Cyber Style -->
+  <text x="110" y="165" font-family="monospace" font-size="50" fill="#00ff66" stroke="#00ff66" stroke-width="1">{}</text>
+
+  <!-- Shopping Cart Icon with Neon Glow (dark hacker theme) -->
+  <rect x="125" y="210" width="50" height="40" rx="5" ry="5" fill="#1f1f1f" stroke="#00ff66" stroke-width="3" filter="url(#neonGlow)"/> <!-- Cart Body -->
+  <circle cx="140" cy="260" r="10" fill="#00ff66"/> <!-- Left Wheel -->
+  <circle cx="180" cy="260" r="10" fill="#00ff66"/> <!-- Right Wheel -->
+  <line x1="135" y1="210" x2="165" y2="210" stroke="#00ff66" stroke-width="3"/> <!-- Handle -->
+
+  <!-- Neon Glow Effect -->
+  <defs>
+    <filter id="neonGlow">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>
