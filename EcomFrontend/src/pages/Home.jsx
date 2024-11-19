@@ -51,8 +51,9 @@ const Home = () => {
       setError(null);
       try {
         const [haldiramProducts, g2Products] = await Promise.all([
-          getProductsByCategory('Haldiram'),
-          getProductsByCategory('G2')
+          getProductsByCategory('fruits'),
+          getProductsByCategory('vegetables'),
+          getProductsByCategory('fiber crops'),
         ]);
 
         const allProducts = [...haldiramProducts, ...g2Products];
