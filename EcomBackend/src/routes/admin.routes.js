@@ -47,7 +47,7 @@ const imageChanges = (req, res, next) => {
 router.use(express.json());
 
 router.route("/register").post(adminregister);
-router.route("/create").post(
+router.route("/create").post(verifyJWT,
   upload.fields([{ name: 'productImage', maxCount: 1 }]),
   createProduct
 );
@@ -55,7 +55,7 @@ router.route("/getproduct").get(getProducts);
 router.route("/getbyid/:id").get(getProductById);
 router.route("/delete/:id").delete(deleteProduct);
 router.route("/update/:id/:imgStatus").put(imageChanges, updateProduct);
-router.route("/getbycategory/:category").get(getProductsByCategory);
+router.route("/getbycategory/:category").get(verifyJWT,getProductsByCategory);
 router.route("/login").post(adminlogin);
 router.route("/getorders/:date").get(verifyJWT,getOrder)
 router.route("/order/:id").get(verifyJWT,getOrderDetails);

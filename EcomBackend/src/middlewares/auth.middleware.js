@@ -10,7 +10,11 @@ import { Admin } from "../models/admin.model.js";
 export const verifyJWT = asyncHandler(async (req, res, next) => {
   try {
     // Attempt to retrieve the access token from cookies or Authorization header
-    let accessToken = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+    let accessToken =
+      req.cookies?.accessToken ||
+      (req.header("Authorization")?.startsWith("Bearer ")
+        ? req.header("Authorization").replace("Bearer ", "")
+        : null);
 
     if (accessToken) {
       // Access token exists, verify it
@@ -61,7 +65,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     // Set the new access token in cookies
     res.cookie("accessToken", newAccessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      secure: true, // Use secure cookies in production
       sameSite: "None",
       maxAge: 60 * 60 * 1000, // 60 minutes
     });

@@ -102,7 +102,7 @@ const createProduct = asyncHandler(async(req,res)=>{
             throw new ApiError(500,"Something went wrong while uploading the image");
         }
         const product=await Product.create({
-            image:image.url,characs,description,price,productName,fixedqty,category,availability
+            image:image.url,characs,description,price,productName,fixedqty,category,availability,owner:req.user.id
         })
         if(!product){
             throw new ApiError(500,"Something went wrong while creating the product");
@@ -223,41 +223,49 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 const getProductsByCategory = asyncHandler(async (req, res) => {
     try {
-        const { category } = req.params;
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 20;
-        const skip = (page - 1) * limit;
-
-        const total = await Product.countDocuments({ category });
-        
-        const products = await Product.find({ category })
-            .skip(skip)
-            .limit(limit);
-
-        if (products.length === 0) {
-            throw new ApiError(404, "No products found");
-        }
-
-        return res.status(200).json(
-            new ApiResponse(200, {
-                products,
-                currentPage: page,
-                totalPages: Math.ceil(total / limit),
-                total
-            }, "Products fetched successfully")
-        );
+      const { category } = req.params;
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+      const skip = (page - 1) * limit;
+  
+      let filter = { category };
+      // If user exists, exclude their products
+      if (req.user?.id) {
+        filter = {
+          category,
+          owner: { $ne: req.user.id.toString() }  // Convert ObjectId to string for comparison
+        };
+      }
+  
+      const total = await Product.countDocuments(filter);
+      const products = await Product.find(filter)
+        .skip(skip)
+        .limit(limit);
+  
+      if (products.length === 0) {
+        throw new ApiError(404, "No products found");
+      }
+  
+      return res.status(200).json(
+        new ApiResponse(200, {
+          products, 
+          currentPage: page, 
+          totalPages: Math.ceil(total / limit), 
+          total 
+        }, "Products fetched successfully")
+      );
     } catch (err) {
-        console.log(err);
-        if (err instanceof ApiError) {
-            return res.status(err.statusCode).json(
-                new ApiResponse(err.statusCode, null, err.message)
-            );
-        }
-        return res.status(500).json(
-            new ApiResponse(500, null, "Internal Server Error")
+      console.log(err);
+      if (err instanceof ApiError) {
+        return res.status(err.statusCode).json(
+          new ApiResponse(err.statusCode, null, err.message)
         );
+      }
+      return res.status(500).json(
+        new ApiResponse(500, null, "Internal Server Error")
+      );
     }
-});
+  });
 
 const getOrder=asyncHandler(async(req,res)=>{
     try{

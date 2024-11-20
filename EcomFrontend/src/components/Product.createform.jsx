@@ -49,6 +49,7 @@ const ProductForm = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(`${API_BASE_URL}/api/admin/create`, product, {
+        withCredentials: true, 
         headers: {
           'Content-Type': 'multipart/form-data',
         },

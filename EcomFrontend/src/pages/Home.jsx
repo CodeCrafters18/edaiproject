@@ -37,6 +37,7 @@ const Home = () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/api/admin/getbycategory/${category}`, {
         params: { page, limit },
+        withCredentials: true, // Include credentials such as cookies
       });
       return response.data.data.products;
     } catch (error) {

@@ -146,7 +146,7 @@ export default function Header() {
   return (
     <header className="header66 header-container">
       <div className="logo-section">
-        <p className="logo">APARNA DISTRIBUTORS</p>
+        <p className="logo">FarmerConnect</p>
       </div>
       <div className="search-section">
         <div className="search-container">
@@ -159,23 +159,6 @@ export default function Header() {
           <button className="search-button">
             <Search size={20} />
           </button>
-          &nbsp;&nbsp;
-          {isAuthenticated && (
-            <>
-              <button
-                onClick={() => navigate("/storagespace")}
-                className="createbtn"
-              >
-                Add space
-              </button>
-              <button
-                onClick={() => navigate("/addgrains")}
-                className="createbtn"
-              >
-                Add Grains
-              </button>
-            </>
-          )}
         </div>
         {results.length > 0 && (
           <div className="search-results">
@@ -234,9 +217,25 @@ export default function Header() {
               <a href="#" className="profile-menu-item">
                 Your Profile
               </a>
-              <a href="#" onClick={logClick} className="profile-menu-item">
-                Log Out
-              </a>
+              {isAuthenticated && (
+            <>
+              <button
+                onClick={() => navigate("/storagespace")}
+                className="profile-menu-item"
+              >
+                Add space
+              </button>
+              <button
+                onClick={() => navigate("/addgrains")}
+                className="profile-menu-item"
+              >
+                Add Grains
+              </button>
+            </>
+            
+          )}<a href="#" onClick={logClick} className="profile-menu-item">
+          Log Out
+        </a>
             </div>
           )}
         </div>

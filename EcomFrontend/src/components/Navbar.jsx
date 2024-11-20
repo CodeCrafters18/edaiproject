@@ -38,7 +38,7 @@ function Navbar() {
       </button>
       <nav className="ecom-nav__mobile-menu">
         <Link to="/" className="ecom-nav__mobile-logo" onClick={() => setIsMobileMenuOpen(false)}>
-          APARNA DISTRIBUTORS
+          FarmerConnect
         </Link>
         <ul className="ecom-nav__mobile-list">
           <li className="ecom-nav__mobile-item">
@@ -51,10 +51,19 @@ function Navbar() {
             {isCategoryOpen && (
               <ul className="ecom-nav__mobile-sublist">
                 <li className="ecom-nav__mobile-subitem">
-                  <Link to="/products/Haldiram" className={`ecom-nav__mobile-sublink ${isActive('/products/Haldiram') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>Haldiram</Link>
+                  <Link to="/products/fruits" className={`ecom-nav__mobile-sublink ${isActive('/products/fruits') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>fruits</Link>
                 </li>
                 <li className="ecom-nav__mobile-subitem">
-                  <Link to="/products/G2" className={`ecom-nav__mobile-sublink ${isActive('/products/G2') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>G2Products</Link>
+                  <Link to="/products/vegetables" className={`ecom-nav__mobile-sublink ${isActive('/products/vegetables') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>vegetables</Link>
+                </li>
+                <li className="ecom-nav__mobile-subitem">
+                  <Link to="/products/grains" className={`ecom-nav__mobile-sublink ${isActive('/products/grains') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>grains</Link>
+                </li>
+                <li className="ecom-nav__mobile-subitem">
+                  <Link to="/products/pulses" className={`ecom-nav__mobile-sublink ${isActive('/products/pulses') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>pulses</Link>
+                </li>
+                <li className="ecom-nav__mobile-subitem">
+                  <Link to="/products/fibre-crop" className={`ecom-nav__mobile-sublink ${isActive('/products/fibre-crop') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>fibre-crop</Link>
                 </li>
               </ul>
             )}
@@ -83,10 +92,19 @@ function Navbar() {
           {isCategoryOpen && (
             <ul className="ecom-nav__desktop-dropdown">
               <li className="ecom-nav__desktop-dropdown-item">
-                <Link to="/products/Haldiram" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/Haldiram') ? 'active' : ''}`}>Haldiram</Link>
+                <Link to="/products/fruits" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/fruits') ? 'active' : ''}`}>fruits</Link>
               </li>
               <li className="ecom-nav__desktop-dropdown-item">
-                <Link to="/products/G2" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/G2') ? 'active' : ''}`}>G2Products</Link>
+                <Link to="/products/vegetables" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/vegetables') ? 'active' : ''}`}>vegetables</Link>
+              </li>
+              <li className="ecom-nav__desktop-dropdown-item">
+                <Link to="/products/grains" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/grains') ? 'active' : ''}`}>grains</Link>
+              </li>
+              <li className="ecom-nav__desktop-dropdown-item">
+                <Link to="/products/pulses" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/pulses') ? 'active' : ''}`}>pulses</Link>
+              </li>
+              <li className="ecom-nav__desktop-dropdown-item">
+                <Link to="/products/fibre-crop" className={`ecom-nav__desktop-dropdown-link ${isActive('/products/fibre-crop') ? 'active' : ''}`}>fibre-crop</Link>
               </li>
             </ul>
           )}

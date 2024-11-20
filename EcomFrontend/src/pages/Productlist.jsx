@@ -23,10 +23,11 @@ const Productlist = () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/api/admin/getbycategory/${category}`, {
                     params: {
-                        page: currentPage,
-                        limit: productsPerPage
-                    }
-                });
+                      page: currentPage,
+                      limit: productsPerPage
+                    },
+                    withCredentials: true, // Include credentials such as cookies
+                  });
                 setProducts(response.data.data.products);
                 setTotalPages(response.data.data.totalPages);
             } catch (error) {
