@@ -3,10 +3,12 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import storageModel from "../models/storage.model.js";
+import {storageModel} from "../models/storage.model.js";
 import { Admin } from "../models/admin.model.js";
 import { billingSchema } from "../models/billingdetails.model.js";
 import { Product } from "../models/product.model.js";
+import fs from "fs";
+import {uploadOnCloudinary} from "../utils/cloudinary.js";
 
 const VerifyUserdetails = asyncHandler(async (req, res) => {
     try {
@@ -249,21 +251,71 @@ const orders = asyncHandler(async (req, res) => {
     }
 });
 const addStorage = asyncHandler(async (req, res) => {
-    try{
-        const {areaLength, areaWidth, climate, location, price, storageType, securityFeatures, availabilityPeriod} = req.body;
-        if(!(areaLength && areaWidth && climate && location && price && storageType)){
+    try {
+        const localPaths = req.files?.['productImages[]']?.map(file => file.path) || [];       
+        if(!localPaths || localPaths.length === 0) {
+            throw new ApiError(400,"Product image is required");
+        }
+        const { 
+            areaLength, 
+            areaWidth, 
+            climate, 
+            location, 
+            price, 
+            storageType, 
+            securityFeatures, 
+            availabilityPeriod 
+        } = req.body;
+        if (!(areaLength && areaWidth && climate && location && price && storageType)) {
+            fs.unlinkSync(localPaths);
             throw new ApiError(400, "All fields are compulsory");
         }
+        const imageUrls = []; // Array to store image URLs
+
+        for (const localpath of localPaths) {
+            try {
+                const image = await uploadOnCloudinary(localpath); // Attempt upload
+                if (!image) {
+                    throw new Error("Image upload failed");
+                }
+                imageUrls.push(image.url);
+            } catch (error) {
+                console.error(`Error uploading file at ${localpath}:`, error.message);
+                if (fs.existsSync(localpath)) {
+                    fs.unlinkSync(localpath); // Cleanup file
+                    console.log(`Deleted local file: ${localpath}`);
+                }
+                throw new ApiError(500, "Something went wrong while uploading the image");
+            }
+        }      
+        // Create storage rental with image URLs
         const storage = await storageModel.create({
-            areaLength, areaWidth, climate, location, price, storageType, securityFeatures, availabilityPeriod
+            areaLength, 
+            areaWidth, 
+            climate, 
+            location, 
+            price,
+            storageType, 
+            securityFeatures, 
+            availabilityPeriod,
+            productImages: imageUrls, // Save image URLs in the images array
         });
-        res.status(201).json(new ApiResponse(200, {storage}, "Storage added successfully"));
-    }catch(error){
-        res.status(500).json({ message: 'something went wrong' });
-        throw new ApiError(500, error.message);
+        res.status(201).json(
+            new ApiResponse(200,  storage , "Storage added successfully with images")
+        );
+    } catch (error) {
+        if (req.files) {
+            req.files['productImages[]'].forEach(file => {
+                if (fs.existsSync(file.path)) {
+                    fs.unlinkSync(file.path);
+                }
+            });
+        }
+        res.status(error.statusCode || 500).json({ 
+            message: error.message || 'Something went wrong' 
+        });
     }
 });
-
 const myproducts = asyncHandler(async (req, res) => {
     try {
         console.log("raj");

@@ -36,6 +36,10 @@ const StorageRentalSchema = new Schema({
     type: String,
     default: '',
   },
+  productImages:{
+    type:Array,
+    default:[]
+  },
   availabilityPeriod: {
     type: String,
     default: '',
@@ -46,4 +50,5 @@ const StorageRentalSchema = new Schema({
 }
 }, { timestamps: true });
 
-export default mongoose.model('StorageRental', StorageRentalSchema);
+// export default mongoose.model('StorageRental', StorageRentalSchema);
+export const storageModel = mongoose.model('StorageRental', StorageRentalSchema);

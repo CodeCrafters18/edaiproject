@@ -2,6 +2,7 @@ import {Router} from "express";
 import { VerifyUserdetails,registerUser,loginUser,addStorage, logoutUser,billingDetails,searchProduct, orders, myproducts } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { createOrder } from "../controllers/payment.controller.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
@@ -11,7 +12,12 @@ router.route("/createuser").post(registerUser);
 
 //secured routes
 router.route("/logout").post(verifyJWT,logoutUser);
-router.route("/addstorage").post(verifyJWT,addStorage);
+router.post(
+    '/addstorage',
+    upload.fields([{ name: 'productImages[]', maxCount: 5 }]),
+    addStorage
+  );
+  
 router.route("/billingdetails").post(verifyJWT,billingDetails);
 router.route("/orders").get(verifyJWT,orders);
 router.route("/products/search").get(searchProduct)
