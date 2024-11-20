@@ -1,7 +1,7 @@
 import mongoose,{Schema} from "mongoose";
 
 const billingDetailSchema = new Schema ({
-    owner:{
+    customer:{
         type:Schema.Types.ObjectId,
         ref:"User"
     },

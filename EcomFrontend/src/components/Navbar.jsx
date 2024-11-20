@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ChevronRight } from "lucide-react";
+import { useUserContext } from "../context/UserContextProvider";
+import { UserContext } from "../context/UserContextProvider";
 import "./Navbar.css";
 
 function Navbar() {
+  
+  const { details, isAuthenticated } = useUserContext();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
@@ -20,10 +24,19 @@ function Navbar() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+  const { setDetails, setIsAuthenticated, setIsAdmin } =
+  useContext(UserContext);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const toggleCategory = () => setIsCategoryOpen(!isCategoryOpen);
-
+  const gotoMyorders = (name) => {
+    if (!name) {
+      return navigate("/authpage", {
+        state: { message: "Please login to view your orders" },
+      });
+    }
+    navigate(`/${name}/myorders`);
+    setIsMobileMenuOpen(false);
+  };
   const isActive = (path) => {
     if (path === '/') {
       return location.pathname === '/';
@@ -121,6 +134,17 @@ function Navbar() {
         <li className="ecom-nav__desktop-item">
           <Link to="/contactus" className={`ecom-nav__desktop-link ${isActive('/contactus') ? 'active' : ''}`}>Contact Us</Link>
         </li>
+        <li className="ecom-nav__desktop-item">
+  <Link 
+    to={details.username ? `/${details.username}/myorders` : "/authpage"} 
+    className={`ecom-nav__desktop-link ${isActive(details.username ? `/${details.username}/myorders` : "/authpage") ? 'active' : ''}`}
+    state={!details.username ? { message: "Please login to view your orders" } : undefined}
+    onClick={() => setIsMobileMenuOpen(false)}
+  >
+    OrderSummary
+  </Link>
+</li>
+
       </ul>
     </nav>
   );

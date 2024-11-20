@@ -14,9 +14,8 @@ const ProductCard = ({
   originalPrice,
   availability,
   id,
+  verify=false,
 }) => {
-  const { isAdmin } = useUserContext();
-  const verify = isAdmin;
   const navigate = useNavigate();
   const [deletePopup, setDeletePopup] = useState(false);
 

@@ -22,6 +22,7 @@ import MyproductsPage from './pages/Myproductspage.jsx';
 import StoragePage from './pages/ShowStoragePage.jsx';
 import StorageRentalCards from './components/FindUniversalSpace.jsx';
 import CreateStorageSpace from './pages/CreateStorage.jsx';
+import Myproductlist from './pages/Myproductlist.jsx';
 
 // ProtectedRoute components
 const ProtectedRoute = ({ children }) => {
@@ -75,6 +76,14 @@ function AppContent() {
             </UserProtectedRoute>
           }
         />
+        <Route
+          path='/myproducts'
+          element={
+            <UserProtectedRoute>
+              <Myproductlist />
+            </UserProtectedRoute>
+          }
+        />
         <Route 
           path="/addspace" 
           element={
@@ -82,6 +91,14 @@ function AppContent() {
               < CreateStorageSpace/>
             </ProtectedRoute>
           } 
+        />
+        <Route
+          path="/update/:id"
+          element={
+            <ProtectedRoute >
+              <EditProductForm />
+            </ProtectedRoute>
+          }
         />
         <Route path="/mobileotp" element={<Auth />} />
         <Route 
