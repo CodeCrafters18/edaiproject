@@ -15,8 +15,7 @@ const StorageRentalSchema = new Schema({
   },
   climate: {
     type: String,
-    required: true,
-    enum: ['cold', 'moderate', 'hot'],
+    required: true, 
   },
   location: {
     type: String,
@@ -30,7 +29,6 @@ const StorageRentalSchema = new Schema({
   storageType: {
     type: String,
     required: true,
-    enum: ['warehouse', 'silo', 'coldStorage', 'openYard'],
   },
   securityFeatures: {
     type: String,

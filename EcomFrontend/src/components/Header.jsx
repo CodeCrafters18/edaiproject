@@ -220,7 +220,7 @@ export default function Header() {
               {isAuthenticated && (
             <>
               <button
-                onClick={() => navigate("/storagespace")}
+                onClick={() => navigate("/addspace")}
                 className="profile-menu-item"
               >
                 Add space
@@ -230,6 +230,12 @@ export default function Header() {
                 className="profile-menu-item"
               >
                 Add Grains
+              </button>
+              <button
+                onClick={() => navigate("/mystorage")}
+                className="profile-menu-item"
+              >
+                My storage
               </button>
             </>
             

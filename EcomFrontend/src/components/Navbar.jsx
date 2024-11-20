@@ -69,6 +69,9 @@ function Navbar() {
             )}
           </li>
           <li className="ecom-nav__mobile-item">
+            <Link to="/findspace" className={`ecom-nav__mobile-link ${isActive('/findspace') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>Find Space</Link>
+          </li>
+          <li className="ecom-nav__mobile-item">
             <Link to="/aboutus" className={`ecom-nav__mobile-link ${isActive('/aboutus') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>About Us</Link>
           </li>
           <li className="ecom-nav__mobile-item">
@@ -109,6 +112,9 @@ function Navbar() {
             </ul>
           )}
         </li>
+        <li className="ecom-nav__desktop-item">
+            <Link to="/findspace" className={`ecom-nav__desktop-link ${isActive('/findspace') ? 'active' : ''}`} >Find Space</Link>
+          </li>
         <li className="ecom-nav__desktop-item">
           <Link to="/aboutus" className={`ecom-nav__desktop-link ${isActive('/aboutus') ? 'active' : ''}`}>About Us</Link>
         </li>

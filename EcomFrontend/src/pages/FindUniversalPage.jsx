@@ -1,13 +1,14 @@
-import StorageRentalForm from "../components/StorageRentalForm";
+import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import StorageRentalCards from "../components/FindUniversalSpace.jsx";
 
-export default function CreateStorageSpace(){
+export default function StorageUniversal(){
     return (<>
         <Header/>
         <Navbar/>
-        <StorageRentalForm/>
+        <StorageRentalCards/>
         <Footer/>
     </>)
 }

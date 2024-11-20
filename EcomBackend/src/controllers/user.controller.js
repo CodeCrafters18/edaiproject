@@ -318,9 +318,7 @@ const addStorage = asyncHandler(async (req, res) => {
 });
 const myproducts = asyncHandler(async (req, res) => {
     try {
-        console.log("raj");
         const myproductsdata = await Product.find({ owner: req.user._id });
-        console.log("vallabh");
         res.status(200).json(new ApiResponse(200,{myproductsdata},"Grains details fetched successfully"));
     } catch (error){
         console.log("Catch error");
@@ -328,4 +326,29 @@ const myproducts = asyncHandler(async (req, res) => {
     }
 });
 
-export { myproducts,searchProduct, VerifyUserdetails, registerUser, loginUser, logoutUser, getCurrentUser, billingDetails, orders, changePassword,addStorage };
+const PersonalStorageSearch = asyncHandler(async (req, res) => {
+    try {
+        const storageData = await storageModel.find({owner:req.user_id});
+        res.status(200).json(new ApiResponse(200,{storageData}," user's storage space fetched successfully"));
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+const UniversalStorageSearch = asyncHandler(async (req, res) => {
+    try {
+        // Fetch storage data and exclude the storage spaces belonging to the current user (req.user_id)
+        if(req.user){
+            const storageData = await storageModel.find({ owner: { $ne: req.user_id } });  // '$ne' means "not equal"
+            res.status(200).json(new ApiResponse(200, {storageData} , "Storage spaces fetched successfully"));
+        }else if(req.user === undefined || req.user === null){ 
+            const storageData = await storageModel.find({});
+            res.status(200).json(new ApiResponse(200, {storageData} , "Storage spaces fetched successfully"));
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+export {PersonalStorageSearch,UniversalStorageSearch,searchProduct, VerifyUserdetails, registerUser, loginUser, logoutUser, getCurrentUser, billingDetails, orders, changePassword,addStorage };
