@@ -19,6 +19,7 @@ import AdminOrderTodayDetail from './pages/AdminTodayOrderDetail';
 import StorageRentalForm from './components/StorageRentalForm';
 import StorageSpace from './pages/CreateStorage';
 import MyproductsPage from './pages/Myproductspage.jsx';
+import Myproductlist from './pages/Myproductlist.jsx';
 
 // ProtectedRoute components
 const ProtectedRoute = ({ children }) => {
@@ -71,6 +72,14 @@ function AppContent() {
             </UserProtectedRoute>
           }
         />
+        <Route
+          path='/myproducts'
+          element={
+            <UserProtectedRoute>
+              <Myproductlist />
+            </UserProtectedRoute>
+          }
+        />
         <Route 
           path="/storagespace" 
           element={
@@ -78,6 +87,14 @@ function AppContent() {
               < StorageSpace/>
             </ProtectedRoute>
           } 
+        />
+        <Route
+          path="/update/:id"
+          element={
+            <ProtectedRoute >
+              <EditProductForm />
+            </ProtectedRoute>
+          }
         />
         <Route path="/mobileotp" element={<Auth />} />
         <Route 

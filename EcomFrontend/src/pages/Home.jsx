@@ -11,16 +11,14 @@ import AlertSuccessMessage from '../components/alertSuccess.jsx';
 import './Home.css';
 import '../App.css';
 
-import image1 from '../assets/slider1.jpg';
-import image2 from '../assets/slider2.jpg';
-import image3 from '../assets/slider3.jpg';
-import image4 from '../assets/slider4.jpg';
+import image1 from '../assets/EDAI 2.jpg';
+import image2 from '../assets/EDAI 3.webp';
+import image3 from '../assets/EDAI.webp';
 
 const slides = [
   { mainImage: image1 },
   { mainImage: image2 },
   { mainImage: image3 },
-  { mainImage: image4 },
 ];
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;// Replace with your actual Render.com URL

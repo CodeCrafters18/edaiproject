@@ -61,7 +61,7 @@ const verifyPayment = async (req, res) => {
                 postCode,
                 cart,
                 amount: amount / 100,
-                owner: req.user.id,
+                customer: req.user.id,
                 phoneNumber,
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id

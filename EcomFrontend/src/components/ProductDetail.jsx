@@ -15,9 +15,10 @@ const ProductDetail = ({
   image,
   characs,
   availability,
+  owner,
 }) => {
-  const {isAdmin}=useUserContext();
-  const verify = isAdmin;
+  const {details}=useUserContext();
+  const verify = details._id===owner;
   const [quantity, setQuantity] = useState(1);
   const [deletePopup, setDeletePopup] = useState(false);
   const navigate = useNavigate();

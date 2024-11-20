@@ -198,14 +198,6 @@ export default function Header() {
       <nav
         className={`nav-section ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}
       >
-        {isAuthenticated && (
-          <button
-            onClick={() => gotoMyorders(details.username)}
-            className="nav-button"
-          >
-            My Orders
-          </button>
-        )}
 
         <div className="profile-section">
           <button onClick={checkforlogin} className="profile-button">
@@ -226,10 +218,24 @@ export default function Header() {
                 Add space
               </button>
               <button
+                onClick={()=>{
+                  navigate("/myproducts");
+                }}
+                className="profile-menu-item"
+              >
+                My Products
+              </button>
+              <button
                 onClick={() => navigate("/addgrains")}
                 className="profile-menu-item"
               >
                 Add Grains
+              </button>
+              <button
+                onClick={() => navigate("/todayorders")}
+                className="profile-menu-item"
+              >
+                TodaysOrders
               </button>
             </>
             

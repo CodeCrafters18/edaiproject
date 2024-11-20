@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createProduct,
   adminregister,
-  getProducts,
+  getMyProducts,
   getProductById,
   deleteProduct,
   updateProduct,
@@ -51,7 +51,7 @@ router.route("/create").post(verifyJWT,
   upload.fields([{ name: 'productImage', maxCount: 1 }]),
   createProduct
 );
-router.route("/getproduct").get(getProducts);
+router.route("/getMyproducts").get(verifyJWT,getMyProducts);
 router.route("/getbyid/:id").get(getProductById);
 router.route("/delete/:id").delete(deleteProduct);
 router.route("/update/:id/:imgStatus").put(imageChanges, updateProduct);

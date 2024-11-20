@@ -116,9 +116,9 @@ const createProduct = asyncHandler(async(req,res)=>{
         console.log(err);
     }
 })
-const getProducts = asyncHandler(async(req,res)=>{
+const getMyProducts = asyncHandler(async(req,res)=>{
     try {
-        const products=await Product.find({});
+        const products=await Product.find({owner:req.user.id});
         if(!products){
             throw new ApiError(404,"No products found");
         }
@@ -267,24 +267,28 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
     }
   });
 
-const getOrder=asyncHandler(async(req,res)=>{
-    try{
-        const {date}=req.params;
-        
+  const getOrder = asyncHandler(async (req, res) => {
+    try {
+        const { date } = req.params;
+        // Query to filter by date and owner
         const Orders = await billingSchema.find({
             created_At: {
-              $gte: new Date(`${date}T00:00:00.000+05:30`),  
-              $lt: new Date(`${date}T23:59:59.999+05:30`)
-            }
-          });
-          return res.status(200).json(
-            new ApiResponse(200,Orders,"Orders fetched successfully")
-        )
-
-    }catch(err){
-        console.log(err)
+                $gte: new Date(`${date}T00:00:00.000+05:30`),
+                $lt: new Date(`${date}T23:59:59.999+05:30`)
+            },
+            owner: req.user.id // Filter orders by the owner
+        });
+        // Return the filtered orders
+        return res.status(200).json(
+            new ApiResponse(200, Orders, "Orders fetched successfully")
+        );
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json(
+            new ApiResponse(500, null, "Failed to fetch orders")
+        );
     }
-})
+});
 
 const getOrderDetails=asyncHandler(async(req,res)=>{
     try {
@@ -318,4 +322,4 @@ const updateorderstatus=asyncHandler(async(req,res)=>{
     }
 })
 
-export {updateorderstatus,getOrderDetails,getOrder,adminlogin,createProduct,adminregister,getProducts,getProductById,deleteProduct,updateProduct,getProductsByCategory};
+export {updateorderstatus,getOrderDetails,getOrder,adminlogin,createProduct,adminregister,getMyProducts,getProductById,deleteProduct,updateProduct,getProductsByCategory};
