@@ -18,7 +18,7 @@ import OrderToday from './pages/adminTodayorder';
 import AdminOrderTodayDetail from './pages/AdminTodayOrderDetail';
 import StorageRentalForm from './components/StorageRentalForm';
 import StorageUniversal from './pages/FindUniversalPage.jsx';
-import MyproductsPage from './pages/Myproductspage.jsx';
+import MyproductsPage from './pages/myproductspage.jsx';
 import StoragePage from './pages/ShowStoragePage.jsx';
 import StorageRentalCards from './components/FindUniversalSpace.jsx';
 import CreateStorageSpace from './pages/CreateStorage.jsx';
