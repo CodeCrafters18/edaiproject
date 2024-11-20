@@ -10,21 +10,21 @@ export default function StorageRentalForm() {
     areaLength: '',
     areaWidth: '',
     climate: '',
-    distance: '',
     price: '',
     storageType: '',
     securityFeatures: '',
     availabilityPeriod: '',
+    productImages: [], 
   });
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const fetchLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
-            // Optional: Use a reverse geocoding service to get the address
             const response = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
             );
@@ -58,35 +58,48 @@ export default function StorageRentalForm() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData((prevData) => ({
+      ...prevData,
+      productImages: files,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsSubmitting(true);
   
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/addstorage`, formData, {
+      console.log("Form Data ",formData);
+      const response = await axios.post(`${API_BASE_URL}/api/addstorage`, formData , {
         headers: {
-          'Content-Type': 'application/json', // Specify JSON since it's not multipart/form-data
+          'Content-Type': 'multipart/form-data',
         },
       });
+  
+
       if (response.status === 201) {
         navigate("/", { state: { message: response.data.message } });
         setFormData({
           areaLength: '',
           areaWidth: '',
           climate: '',
-          location: '',
           price: '',
           storageType: '',
           securityFeatures: '',
           availabilityPeriod: '',
+          productImages: [], 
         });
       } else {
         console.error('Error submitting storage form');
       }
     } catch (error) {
       console.error('Error:', error);
+      // Optionally, add user-facing error handling
+      alert('Failed to submit form. Please check your inputs and try again.');
     } finally {
-      setIsSubmitting(false); // Stop loading
+      setIsSubmitting(false);
     }
   };
 
@@ -142,6 +155,28 @@ export default function StorageRentalForm() {
               <option value="hot">Hot</option>
             </select>
           </div>
+
+          <div>
+        <label htmlFor="productImages">Upload Photos</label>
+        <input
+          type="file"
+          id="productImages"
+          name="productImages"
+          onChange={handleFileChange}
+          accept="image/*"
+          multiple
+          required
+        />
+            {/* Optional: Show selected file names */}
+            {formData.productImages.length > 0 && (
+              <div className="selected-files">
+                {formData.productImages.map((file, index) => (
+                  <span key={index}>{file.name}</span>
+                ))}
+              </div>
+            )}
+          </div>
+
 
           <div>
   <label htmlFor="location" className="block text-sm font-medium text-gray-700">
