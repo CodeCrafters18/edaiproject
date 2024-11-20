@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { VerifyUserdetails,registerUser,loginUser,addStorage, logoutUser,billingDetails,searchProduct, orders, myproducts } from "../controllers/user.controller.js";
+import { VerifyUserdetails,registerUser,loginUser,addStorage, logoutUser,billingDetails,searchProduct, orders, PersonalStorageSearch, UniversalStorageSearch } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { createOrder } from "../controllers/payment.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
@@ -21,6 +21,8 @@ router.post(
 router.route("/billingdetails").post(verifyJWT,billingDetails);
 router.route("/orders").get(verifyJWT,orders);
 router.route("/products/search").get(searchProduct)
-router.route("/myproducts").get(verifyJWT,myproducts);
+// router.route("/myproducts").get(verifyJWT,myproducts);
+router.route("/getstorage").get(verifyJWT,PersonalStorageSearch);
+router.route("/findstorage").get(verifyJWT,UniversalStorageSearch);
 
 export default router;

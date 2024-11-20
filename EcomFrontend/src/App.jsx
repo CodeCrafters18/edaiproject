@@ -17,8 +17,11 @@ import Orders from './pages/Orders';
 import OrderToday from './pages/adminTodayorder';
 import AdminOrderTodayDetail from './pages/AdminTodayOrderDetail';
 import StorageRentalForm from './components/StorageRentalForm';
-import StorageSpace from './pages/CreateStorage';
-import MyproductsPage from './pages/myproductspage.jsx';
+import StorageUniversal from './pages/FindUniversalPage.jsx';
+import MyproductsPage from './pages/Myproductspage.jsx';
+import StoragePage from './pages/ShowStoragePage.jsx';
+import StorageRentalCards from './components/FindUniversalSpace.jsx';
+import CreateStorageSpace from './pages/CreateStorage.jsx';
 import Myproductlist from './pages/Myproductlist.jsx';
 
 // ProtectedRoute components
@@ -64,6 +67,7 @@ function AppContent() {
         <Route path="/product/:id" element={<ProductPage  />} />
         <Route path="/authpage" element={<Authpage  />} />
         <Route path="/products/:category" element={<Productlist  />} />
+        <Route path="/findspace" element={<StorageUniversal  />} />
         <Route 
           path="/checkout" 
           element={
@@ -81,10 +85,10 @@ function AppContent() {
           }
         />
         <Route 
-          path="/storagespace" 
+          path="/addspace" 
           element={
             <ProtectedRoute >
-              < StorageSpace/>
+              < CreateStorageSpace/>
             </ProtectedRoute>
           } 
         />
@@ -105,6 +109,7 @@ function AppContent() {
             </ProtectedRoute>
           } 
         />
+        <Route path="/mystorage" element={<StoragePage />} />
         <Route 
           path="/order/:id" 
           element={
@@ -121,6 +126,7 @@ function AppContent() {
             </ProtectedRoute>
           } 
         />
+        
         <Route 
           path="/myproducts" 
           element={

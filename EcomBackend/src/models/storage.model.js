@@ -15,7 +15,7 @@ const StorageRentalSchema = new Schema({
   },
   climate: {
     type: String,
-    required: true,
+    required: true, 
   },
   location: {
     type: String,
