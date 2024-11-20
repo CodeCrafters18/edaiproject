@@ -18,7 +18,7 @@ import OrderToday from './pages/adminTodayorder';
 import AdminOrderTodayDetail from './pages/AdminTodayOrderDetail';
 import StorageRentalForm from './components/StorageRentalForm';
 import StorageSpace from './pages/CreateStorage';
-import MyproductsPage from './pages/Myproductspage.jsx';
+import MyproductsPage from './pages/myproductspage.jsx';
 import Myproductlist from './pages/Myproductlist.jsx';
 
 // ProtectedRoute components

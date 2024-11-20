@@ -1,6 +1,7 @@
 import Razorpay from 'razorpay';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import { billingSchema } from '../models/billingdetails.model.js';
+import { OrderSegregation } from '../models/OrderSegregation.model.js';
 import crypto from 'crypto';
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -66,7 +67,17 @@ const verifyPayment = async (req, res) => {
                 paymentId: razorpay_payment_id,
                 orderId: razorpay_order_id
             });
-
+            const segregatedCarts = OrderSegregation22(cart);
+            const savedOrders = await saveOrderSegregation(segregatedCarts, {
+                orderId: razorpay_order_id,
+                customer: req.user.id,
+                firstName,
+                lastName,
+                address,
+                city,
+                postCode,
+                phoneNumber
+            });
             return res.json(new ApiResponse(200, { billing }, "Payment verified and billing details saved successfully"));
         } else {
             return res.status(400).json(new ApiResponse(400, null, "Payment verification failed"));
@@ -76,5 +87,53 @@ const verifyPayment = async (req, res) => {
         return res.status(500).json(new ApiResponse(500, null, "Server error", error.message));
     }
 };
+function OrderSegregation22(cart) {
+    // Create a map to group products by owner
+    const ownerGroups = cart.reduce((groups, product) => {
+        // Use owner if exists, otherwise use a default 'unknown' owner
+        const ownerId = product.owner || 'unknown';
+        
+        if (!groups[ownerId]) {
+            groups[ownerId] = [];
+        }
+        groups[ownerId].push(product);
+        return groups;
+    }, {});
 
+    // Convert the grouped map to an array of owner-specific cart groups
+    const segregatedCarts = Object.entries(ownerGroups).map(([ownerId, products]) => ({
+        owner: ownerId === 'unknown' ? null : ownerId,
+        products: products
+    }));
+
+    return segregatedCarts;
+}
+async function saveOrderSegregation(segregatedCarts, orderDetails) {
+    try {
+        const savedOrders = [];
+
+        for (const cartGroup of segregatedCarts) {
+            const orderData = {
+                orderId: orderDetails.orderId,
+                owner: cartGroup.owner, // This can be null if no specific owner
+                customer: orderDetails.customer,
+                firstName: orderDetails.firstName,
+                lastName: orderDetails.lastName,
+                address: orderDetails.address,
+                city: orderDetails.city,
+                phoneNumber: orderDetails.phoneNumber,
+                postCode: orderDetails.postCode,
+                cart: cartGroup.products,
+                orderStatus: "Not Dispatched"
+            };
+
+            const savedOrder = await OrderSegregation.create(orderData);
+            savedOrders.push(savedOrder);
+        }
+        return savedOrders;
+    } catch (error) {
+        console.error('Order Segregation Save Error:', error);
+        throw error;
+    }
+}
 export { createOrder, verifyPayment };

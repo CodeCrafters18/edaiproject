@@ -5,6 +5,7 @@ import {ApiResponse} from "../utils/ApiResponse.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import fs from "fs";
 import { Admin} from "../models/admin.model.js";
+import {OrderSegregation} from "../models/OrderSegregation.model.js";
 import { billingSchema } from "../models/billingdetails.model.js";
 
 const adminregister = asyncHandler(async(req,res)=>{
@@ -269,13 +270,8 @@ const getProductsByCategory = asyncHandler(async (req, res) => {
 
   const getOrder = asyncHandler(async (req, res) => {
     try {
-        const { date } = req.params;
         // Query to filter by date and owner
-        const Orders = await billingSchema.find({
-            created_At: {
-                $gte: new Date(`${date}T00:00:00.000+05:30`),
-                $lt: new Date(`${date}T23:59:59.999+05:30`)
-            },
+        const Orders = await OrderSegregation.find({
             owner: req.user.id // Filter orders by the owner
         });
         // Return the filtered orders

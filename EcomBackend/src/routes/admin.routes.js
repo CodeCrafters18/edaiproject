@@ -57,7 +57,7 @@ router.route("/delete/:id").delete(deleteProduct);
 router.route("/update/:id/:imgStatus").put(imageChanges, updateProduct);
 router.route("/getbycategory/:category").get(verifyJWT,getProductsByCategory);
 router.route("/login").post(adminlogin);
-router.route("/getorders/:date").get(verifyJWT,getOrder)
+router.route("/getorders").get(verifyJWT,getOrder)
 router.route("/order/:id").get(verifyJWT,getOrderDetails);
 router.route("/updateOrderStatus").post(verifyJWT,updateorderstatus);
 router.route("/verify").get(verifyJWT, (req, res) => {

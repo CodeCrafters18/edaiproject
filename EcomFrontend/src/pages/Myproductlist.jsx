@@ -62,6 +62,7 @@ const Myproductlist = () => {
                                 id={product._id}
                                 availability={product.availability}
                                 verify={true}
+                                owner={product.owner}
                             />   
                         </React.Fragment>
                     ))

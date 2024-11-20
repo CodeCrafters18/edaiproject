@@ -2,47 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import './Adminmyorder.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { Truck, Package } from 'lucide-react';
-import AlertSuccessMessage from './alertSuccess.jsx'; // Import Alert component
+import AlertSuccessMessage from './alertSuccess.jsx';
 import AlertFailureMessage from './alertFailure.jsx';
-import MorphingLoader from './MorphingLoader.jsx'; // Import the loader component
+import MorphingLoader from './MorphingLoader.jsx';
 
 export default function TodaysOrders() {
-    const currentDateInIST = new Date(Date.now());
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [orders, setOrders] = useState([]);
-    const [date, setDate] = useState(currentDateInIST);
     const [searchTerm, setSearchTerm] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
     const [orderStatuses, setOrderStatuses] = useState({});
-    const [alertVisible, setAlertVisible] = useState(false); 
+    const [alertVisible, setAlertVisible] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
-    const [loading, setLoading] = useState(false); // New loading state
+    const [loading, setLoading] = useState(false);
     const [falertVisible, setFAlertVisible] = useState(false);
-    const ordersPerPage = 5;
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
 
     useEffect(() => {
-        fetchOrders(date);
-    }, [date]);
+        fetchOrders();
+    }, []);
 
     useEffect(() => {
         setOrderStatuses(
             orders.reduce((acc, order) => {
-                acc[order._id] = order.orderStatus; // Initialize with current status
+                acc[order._id] = order.orderStatus;
                 return acc;
             }, {})
         );
     }, [orders]);
 
-    const fetchOrders = async (fetchDate) => {
-        setLoading(true); // Set loading to true when fetching starts
+    const calculateOrderTotal = (cart) => {
+        if (!Array.isArray(cart)) return 0;
+        
+        return cart.reduce((total, item) => {
+            // Check if price is an array and take the first value (assuming it's the actual price)
+            const price = Array.isArray(item.price) ? item.price[0] : item.price;
+            return total + (Number(price) * Number(item.qty));
+        }, 0);
+    };
+
+    const fetchOrders = async () => {
+        setLoading(true);
         try {
-            const fetchDateInUTC = new Date(fetchDate.getTime());
-            const formattedDate = fetchDateInUTC.toISOString().split('T')[0];
-            const response = await axios.get(`${API_BASE_URL}/api/admin/getorders/${formattedDate}`, { withCredentials: true });
+            const response = await axios.get(`${API_BASE_URL}/api/admin/getorders`, { withCredentials: true });
             if (response.data.success) {
                 setOrders(response.data.data);
             } else {
@@ -52,23 +53,23 @@ export default function TodaysOrders() {
         } catch (error) {
             console.error('Error fetching orders:', error);
         } finally {
-            setLoading(false); // Set loading to false when fetching completes
+            setLoading(false);
         }
     };
 
     const handleStatusChange = (event) => {
         const { name, value } = event.target;
-        const orderId = name.split('_')[1]; // Extract order ID from name
+        const orderId = name.split('_')[1];
         setOrderStatuses((prevStatuses) => ({
             ...prevStatuses,
-            [orderId]: value, // Update the status of the specific order
+            [orderId]: value,
         }));
     };
 
     const updatestatusindb = async () => {
         const updatedStatus = orders.map((order) => ({
             orderId: order._id,
-            status: orderStatuses[order._id], // Get the updated status from state
+            status: orderStatuses[order._id],
         }));
 
         try {
@@ -81,21 +82,15 @@ export default function TodaysOrders() {
         }
     };
 
-    const handleDateChange = (e) => {
-        const newDate = new Date(e.target.value);
-        setDate(newDate);
-    };
-
-    // Filter orders based on search term
     const filteredOrders = orders.filter(order =>
-        order.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (order.product && order.product.toLowerCase().includes(searchTerm.toLowerCase()))
+        order.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.cart?.some(item => item.title?.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
-    const currentOrders = filteredOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-    const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
-    const totalOrders = filteredOrders.length;
-    const totalRevenue = filteredOrders.reduce((sum, order) => sum + order.amount, 0);
+    // Calculate total revenue from cart items
+    const totalRevenue = filteredOrders.reduce((sum, order) => {
+        return sum + calculateOrderTotal(order.cart);
+    }, 0);
 
     return (
         <div className="todays-orders">
@@ -111,25 +106,18 @@ export default function TodaysOrders() {
                     onClose={() => setFAlertVisible(false)}
                 />
             )}
-            {loading ? ( // Show loader if loading is true
+            {loading ? (
                 <MorphingLoader />
             ) : (
                 <>
                     <div className="heading1">
-                        <h1>Today's Orders</h1>
-                        <div className="date-picker">
-                            <input
-                                type="date"
-                                value={date.toISOString().split("T")[0]}
-                                onChange={handleDateChange}
-                            />
-                        </div>
+                        <h1>All Orders</h1>
                     </div>
 
                     <div className="summary">
                         <div className="card">
                             <h2>Total Orders</h2>
-                            <p>{totalOrders}</p>
+                            <p>{filteredOrders.length}</p>
                         </div>
                         <div className="card">
                             <h2>Total Revenue</h2>
@@ -158,10 +146,10 @@ export default function TodaysOrders() {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentOrders.map((order) => (
+                            {filteredOrders.map((order) => (
                                 <tr key={order._id}>
                                     <td>{order.orderId}</td>
-                                    <td>{`${order.firstName} ${order.lastName}`}</td>
+                                    <td>{`${order.firstName || ''} ${order.lastName || ''}`}</td>
                                     <td>
                                         <div className="status-checkbox">
                                             <label>
@@ -187,52 +175,33 @@ export default function TodaysOrders() {
                                         </div>
                                     </td>
                                     <td>{format(new Date(order.created_At), "HH:mm:ss")}</td>
-                                    <td>&#8377;{order.amount.toFixed(2)}</td>
-                                    <td>
-                                        <Link to={`/order/${order._id}`}>View Details</Link>
-                                    </td>
+                                    <td>&#8377;{calculateOrderTotal(order.cart).toFixed(2)}</td>
+                                    <td>View Details</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
 
                     <button
-          onClick={updatestatusindb}
-          style={{
-            backgroundColor: "#28a745",
-            color: "white",
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-          onMouseOver={(e) =>
-            (e.currentTarget.style.backgroundColor = "#218838")
-          }
-          onMouseOut={(e) =>
-            (e.currentTarget.style.backgroundColor = "#28a745")
-          }
-        >
-          Update in Database
-        </button>
-
-                    <div className="pagination">
-                        <button
-                            className="button1"
-                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                            disabled={currentPage === 1}
-                        >
-                            Previous
-                        </button>
-                        <button
-                            className="button1"
-                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                            disabled={currentPage === totalPages}
-                        >
-                            Next
-                        </button>
-                    </div>
+                        onClick={updatestatusindb}
+                        style={{
+                            backgroundColor: "#28a745",
+                            color: "white",
+                            padding: "10px 20px",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            fontSize: "16px",
+                        }}
+                        onMouseOver={(e) =>
+                            (e.currentTarget.style.backgroundColor = "#218838")
+                        }
+                        onMouseOut={(e) =>
+                            (e.currentTarget.style.backgroundColor = "#28a745")
+                        }
+                    >
+                        Update in Database
+                    </button>
                 </>
             )}
         </div>

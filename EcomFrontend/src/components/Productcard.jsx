@@ -15,6 +15,7 @@ const ProductCard = ({
   availability,
   id,
   verify=false,
+  owner,
 }) => {
   const navigate = useNavigate();
   const [deletePopup, setDeletePopup] = useState(false);
@@ -35,6 +36,7 @@ const ProductCard = ({
       price: [currentPrice, originalPrice],
       availability,
       qty: 1,
+      owner,
     };
     let cartArr = JSON.parse(Cookies.get("cart") || "[]");
     const existingProduct = cartArr.find((p) => p.id === product.id);

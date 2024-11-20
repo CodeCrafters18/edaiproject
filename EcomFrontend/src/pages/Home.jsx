@@ -129,6 +129,7 @@ const Home = () => {
               originalPrice={product.price[1]}
               id={product._id}
               availability={product.availability}
+              owner={product.owner}
             />   
           ))
         ) : (
