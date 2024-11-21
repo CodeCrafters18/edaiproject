@@ -76,8 +76,8 @@ const BillingDetails = () => {
       key: import.meta.env.VITE_PAYMENT_KEY_ID,
       amount: orderData.amount,
       currency: orderData.currency,
-      name: "APARNA DISTRIBUTORS",
-      description: "THIS IS THE PAYMENT-GATEWAY AT APARNA DISTRIBUTORS FOR YOUR ORDER",
+      name: "Farmer Connect",
+      description: "THIS IS THE PAYMENT-GATEWAY AT FarmConnect FOR YOUR ORDER",
       order_id: orderData.id,
       handler: function (response) {
         setIsLoading(false);

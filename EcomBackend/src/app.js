@@ -22,11 +22,12 @@ import userRouter from "./routes/user.routes.js"
 import adminRouter from "./routes/admin.routes.js"
 import sendOtpRouter from "./routes/sendOtp.routes.js"
 import paymentRouter from "./routes/payment.routes.js"
-
+import farmerRouter from "./routes/farmer.routes.js"
 //routes declaration 
 app.use("/api",userRouter)
 app.use("/api/admin",adminRouter)
 app.use("/api/checkotp",sendOtpRouter);
 app.use("/api/payment",paymentRouter);
+app.use("/api/agriculture",farmerRouter);
 
 export {app,port}

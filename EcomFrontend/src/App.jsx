@@ -23,6 +23,7 @@ import StoragePage from './pages/ShowStoragePage.jsx';
 import StorageRentalCards from './components/FindUniversalSpace.jsx';
 import CreateStorageSpace from './pages/CreateStorage.jsx';
 import Myproductlist from './pages/Myproductlist.jsx';
+import NewsPage from './pages/NewsPage.jsx';
 
 // ProtectedRoute components
 const ProtectedRoute = ({ children }) => {
@@ -68,6 +69,7 @@ function AppContent() {
         <Route path="/authpage" element={<Authpage  />} />
         <Route path="/products/:category" element={<Productlist  />} />
         <Route path="/findspace" element={<StorageUniversal  />} />
+        <Route path='/news' element={<NewsPage/>}/>
         <Route 
           path="/checkout" 
           element={

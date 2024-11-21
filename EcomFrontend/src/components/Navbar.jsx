@@ -90,6 +90,9 @@ function Navbar() {
           <li className="ecom-nav__mobile-item">
             <Link to="/contactus" className={`ecom-nav__mobile-link ${isActive('/contactus') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link>
           </li>
+          <li className="ecom-nav__mobile-item">
+            <Link to="/news" className={`ecom-nav__mobile-link ${isActive('/news') ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}>News</Link>
+          </li>
         </ul>
       </nav>
     </div>
@@ -144,7 +147,15 @@ function Navbar() {
     OrderSummary
   </Link>
 </li>
-
+<li className="ecom-nav__desktop-item">
+  <Link
+    to={"/news"}
+    className={`ecom-nav__desktop-link ${isActive("/news") ? 'active' : ''}`}
+    onClick={() => setIsMobileMenuOpen(false)}
+  >
+    News
+  </Link>
+</li>
       </ul>
     </nav>
   );
